@@ -14,7 +14,6 @@ $phone = $_POST['phone'];
 $adress = $_POST['adress'];
 $commentary = $_POST['commentary'];
 $dishes_count = $_POST['dishes_count'];
-$datetime = str_replace("T", ' ', $_POST['datetime']);
 
 $sql = "SELECT * FROM organizations WHERE org_id = '$org_id'";
 $query = mysqli_query($conn, $sql);
@@ -32,12 +31,10 @@ $dish_amount_array = array();
     echo "<input type='hidden' value=$adress name='adress'>";
     echo "<input type='hidden' value=$commentary name='commentary'>";
     echo "<input type='hidden' value=$dishes_count name='dishes_count'>";
-    echo "<input type='hidden' value=$datetime name='datetime'>";
     echo "<label>Организация: $org_name</label><br>";
     echo "<label>Имя: $name</label><br>";
     echo "<label>Телефон: $phone</label><br>";
     echo "<label>Адрес: $adress</label><br>";
-    echo "<label>Время заказа: $datetime</label><br>";
     echo "<label>Комментарий: $commentary</label><br>";
 
     $dishes = boohgalter_helper::getDishes($conn);

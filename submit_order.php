@@ -9,7 +9,7 @@ $phone = $_POST['phone'];
 $adress = $_POST['adress'];
 $commentary = $_POST['commentary'];
 $dishes_count = $_POST['dishes_count'];
-$datetime = $_POST['datetime'];
+$datetime = date("d:m:y H-i-s");
 
 $dishes = array();
 $dish_amount_array = array();

@@ -31,8 +31,6 @@ while ($row = mysqli_fetch_array($query)){
     <input type="text" id="phone" name="phone" required><br>
     <label for="adress">Введите адрес клиента</label>
     <input type="text" id="dress" name="adress" required><br>
-    <label for="datetime">Укажите время заказа</label>
-    <input type="datetime-local" id="datetime" name="datetime"><br>
     <label for="commentary">Введите комментарий к заказу</label>
     <input type="text" id="commentary" name="commentary"><br>
     <label for="dishesCount">Введите количество блюд в заказе</label>
