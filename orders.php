@@ -2,7 +2,7 @@
     var lowToHigh = new Boolean(5);
     function sortTable(column) {
         var table, rows, switching, i, x, y, shouldSwitch;
-        table = document.getElementById("clientsTable");
+        table = document.getElementById("ordersTable");
         switching = true;
         /*Make a loop that will continue until
         no switching has been done:*/
@@ -70,61 +70,76 @@
 </script>
 
 <?php
-include 'boohgalter_helper.php';
-include 'client_data.php';
+include 'order_data.php';
+$conn = mysqli_connect($_SESSION['host'], "root", "", "boohgalter");
 ?>
-<style>
-    table, th, td{
-        border: 1px solid black;
-        border-collapse: collapse;
-    }
-</style>
+    <style>
+        table, th, td{
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+    </style>
 
 <?php
-$conn = mysqli_connect($_SESSION['host'], "root", "", "boohgalter");
-
-$sql = "SELECT * FROM clients";
+$sql = "SELECT * FROM orders";
 $query = mysqli_query($conn, $sql);
 ?>
 
-<table id="clientsTable">
+<table id="ordersTable">
     <tr>
-        <th onclick="sortTable(0)">Имя</th>
-        <th onclick="sortTable(1)">Телефон</th>
-        <th onclick="sortTable(2)">Покупок</th>
-        <th onclick="sortTable(3)">Последняя покупка</th>
+        <th onclick="sortTable(0)">Организация</th>
+        <th onclick="sortTable(1)">Имя клиента</th>
+        <th onclick="sortTable(2)">Телефон</th>
+        <th onclick="sortTable(3)">Адрес</th>
         <th onclick="sortTable(4)">Комментарий</th>
-        <th>Действия</th>
+        <th onclick="sortTable(5)">Время заказа</th>
+        <th onclick="sortTable(6)">Блюда</th>
+        <th onclick="sortTable(7)">Стоимость заказа</th>
     </tr>
     <?php
+    $orders_listed = array();
+    $orders = array();
+    while ($row = mysqli_fetch_array($query)) {
+        if (!in_array($row['order_id'], $orders_listed))
+            array_push($orders_listed, $row['order_id']);
+        else continue;
 
-    while ($row = mysqli_fetch_array($query)){
-        $client_data = new client_data($row['client_id'], $conn);
+        $order_data = new order_data($row['order_id'], $conn);
         echo "<tr>
         <td>
-        $client_data->name
+        $order_data->org_name
         </td>
+
         <td>
-        $client_data->phone
+        $order_data->client_name
         </td>
+
         <td>
-        $client_data->orders
+        $order_data->client_phone
         </td>
+
         <td>
-        $client_data->last_order
+        $order_data->client_adress
         </td>
+
         <td>
-        $client_data->comment
+        $order_data->order_comment
         </td>
+
         <td>
-        <form action='client_info.php' method='post'>
-        <input type='hidden' name='client_id' value='$client_data->client_id'>
-        <input type='submit' value='Подробно'><br>
-        </form>
-        <form onsubmit=\"return confirm('Вы уверены?');\" action='delete_client.php' method='post'>
-        <input type='hidden' name='client_id' value='$client_data->client_id'>
-        <input type='submit' value='Удалить клиента'>
-        </form>
+        $order_data->order_time
+        </td>
+
+        <td>";
+        $dishes = $order_data->dishes;
+        for($i = 0; $i < count($dishes) - 1; $i++){
+            echo "$dishes[$i],<br>";
+        }
+        echo $dishes[count($dishes) - 1];
+        echo "</td>
+
+        <td>
+        $order_data->cost
         </td>
         </tr>";
     }

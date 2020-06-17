@@ -1,8 +1,8 @@
 <script>
-    var lowToHigh = new Boolean(5);
+    var lowToHigh = new Boolean(3);
     function sortTable(column) {
         var table, rows, switching, i, x, y, shouldSwitch;
-        table = document.getElementById("clientsTable");
+        table = document.getElementById("dishesTable");
         switching = true;
         /*Make a loop that will continue until
         no switching has been done:*/
@@ -70,8 +70,11 @@
 </script>
 
 <?php
-include 'boohgalter_helper.php';
-include 'client_data.php';
+include 'dish_data.php';
+$conn = mysqli_connect($_SESSION['host'], "root", "", "boohgalter");
+
+$sql = "SELECT * FROM dishes";
+$query = mysqli_query($conn, $sql);
 ?>
 <style>
     table, th, td{
@@ -79,55 +82,44 @@ include 'client_data.php';
         border-collapse: collapse;
     }
 </style>
-
-<?php
-$conn = mysqli_connect($_SESSION['host'], "root", "", "boohgalter");
-
-$sql = "SELECT * FROM clients";
-$query = mysqli_query($conn, $sql);
-?>
-
-<table id="clientsTable">
+<table id="dishesTable">
     <tr>
-        <th onclick="sortTable(0)">Имя</th>
-        <th onclick="sortTable(1)">Телефон</th>
-        <th onclick="sortTable(2)">Покупок</th>
-        <th onclick="sortTable(3)">Последняя покупка</th>
-        <th onclick="sortTable(4)">Комментарий</th>
+        <th onclick="sortTable(0)">Название блюда</th>
+        <th>Ингридиенты</th>
+        <th onclick="sortTable(2)">Стоимость, руб.</th>
         <th>Действия</th>
     </tr>
     <?php
-
+    $dishes_listed = array();
     while ($row = mysqli_fetch_array($query)){
-        $client_data = new client_data($row['client_id'], $conn);
+        $dish_id = $row['dish_id'];
+        if (!in_array($dish_id, $dishes_listed))
+            array_push($dishes_listed, $dish_id);
+        else continue;
+
+        $dish_data = new dish_data($conn, $dish_id);
+        $ings_str = $dish_data->get_ingridients_str();
         echo "<tr>
-        <td>
-        $client_data->name
-        </td>
-        <td>
-        $client_data->phone
-        </td>
-        <td>
-        $client_data->orders
-        </td>
-        <td>
-        $client_data->last_order
-        </td>
-        <td>
-        $client_data->comment
-        </td>
-        <td>
-        <form action='client_info.php' method='post'>
-        <input type='hidden' name='client_id' value='$client_data->client_id'>
-        <input type='submit' value='Подробно'><br>
-        </form>
-        <form onsubmit=\"return confirm('Вы уверены?');\" action='delete_client.php' method='post'>
-        <input type='hidden' name='client_id' value='$client_data->client_id'>
-        <input type='submit' value='Удалить клиента'>
-        </form>
-        </td>
-        </tr>";
+<td>
+$dish_data->name
+</td>
+<td>
+$ings_str
+</td>
+<td>
+$dish_data->cost
+</td>
+<td>
+<form action='edit_dish.php' method='post'>
+<input type='hidden' name='dish_id' value='$dish_id'>
+<input type='submit' name='edit' value='Изменить блюдо'><br>
+<input type='submit' name='delete' value='Удалить'>
+</form>
+</td>
+</tr>";
     }
     ?>
 </table>
+<a href="add_dish.php">Добавить блюдо</a><br>
+<a href="add_ingridient.php">Добавить ингридиент</a><br>
 <a href='.'>Вернуться на главную страницу</a>
