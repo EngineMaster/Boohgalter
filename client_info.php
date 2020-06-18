@@ -14,13 +14,12 @@ else {
     $client_data = new client_data($client_id, $conn);
     $name = $client_data->name;
     $phone = $client_data->phone;
-    $orders_array = client_data::getOrders($conn, $client_id);
     $comment = $client_data->comment;
 
     echo "<form action='#' method='post'>
     <label'>Имя: $name</label><br>
     <label>Телефон: $phone</label><br>
-    <label>Заказы: $orders_array</label><br>
+    <label>Заказов: $client_data->orders</label><br>
     <label for='comment'>Комментарий: </label>
     <input type='hidden' name='client_id' value='$client_id'>
     <input type='text' id='comment' name='new_comment' value='$comment'><br>

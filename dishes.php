@@ -1,72 +1,4 @@
-<script>
-    var lowToHigh = new Boolean(3);
-    function sortTable(column) {
-        var table, rows, switching, i, x, y, shouldSwitch;
-        table = document.getElementById("dishesTable");
-        switching = true;
-        /*Make a loop that will continue until
-        no switching has been done:*/
-        if(lowToHigh[column]){
-            while (switching) {
-                //start by saying: no switching is done:
-                switching = false;
-                rows = table.rows;
-                /*Loop through all table rows (except the
-                first, which contains table headers):*/
-                for (i = 1; i < (rows.length - 1); i++) {
-                    //start by saying there should be no switching:
-                    shouldSwitch = false;
-                    /*Get the two elements you want to compare,
-                    one from current row and one from the next:*/
-                    x = rows[i].getElementsByTagName("TD")[column];
-                    y = rows[i + 1].getElementsByTagName("TD")[column];
-                    //check if the two rows should switch place:
-                    if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-                        //if so, mark as a switch and break the loop:
-                        shouldSwitch = true;
-                        break;
-                    }
-                }
-                if (shouldSwitch) {
-                    /*If a switch has been marked, make the switch
-                    and mark that a switch has been done:*/
-                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-                    switching = true;
-                }
-            }
-        }
-        if(!lowToHigh[column]){
-            while (switching) {
-                //start by saying: no switching is done:
-                switching = false;
-                rows = table.rows;
-                /*Loop through all table rows (except the
-                first, which contains table headers):*/
-                for (i = 1; i < (rows.length - 1); i++) {
-                    //start by saying there should be no switching:
-                    shouldSwitch = false;
-                    /*Get the two elements you want to compare,
-                    one from current row and one from the next:*/
-                    x = rows[i].getElementsByTagName("TD")[column];
-                    y = rows[i + 1].getElementsByTagName("TD")[column];
-                    //check if the two rows should switch place:
-                    if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
-                        //if so, mark as a switch and break the loop:
-                        shouldSwitch = true;
-                        break;
-                    }
-                }
-                if (shouldSwitch) {
-                    /*If a switch has been marked, make the switch
-                    and mark that a switch has been done:*/
-                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-                    switching = true;
-                }
-            }
-        }
-
-        lowToHigh[column] = !lowToHigh[column];
-    }
+<script type="text/javascript" src="sortTable.js">
 </script>
 
 <?php
@@ -84,9 +16,9 @@ $query = mysqli_query($conn, $sql);
 </style>
 <table id="dishesTable">
     <tr>
-        <th onclick="sortTable(0)">Название блюда</th>
-        <th>Ингридиенты</th>
-        <th onclick="sortTable(2)">Стоимость, руб.</th>
+        <th onclick="sortTable(0, 'dishesTable', 3)">Название блюда</th>
+        <th>Ингредиенты</th>
+        <th onclick="sortTable(2, 'dishesTable', 3)">Стоимость, руб.</th>
         <th>Действия</th>
     </tr>
     <?php
@@ -113,7 +45,6 @@ $dish_data->cost
 <form action='edit_dish.php' method='post'>
 <input type='hidden' name='dish_id' value='$dish_id'>
 <input type='submit' name='edit' value='Изменить блюдо'><br>
-<input type='submit' name='delete' value='Удалить'>
 </form>
 </td>
 </tr>";
@@ -121,5 +52,5 @@ $dish_data->cost
     ?>
 </table>
 <a href="add_dish.php">Добавить блюдо</a><br>
-<a href="add_ingridient.php">Добавить ингридиент</a><br>
+<a href="add_ingridient.php">Добавить ингредиент</a><br>
 <a href='.'>Вернуться на главную страницу</a>

@@ -10,11 +10,11 @@
         var brElement = document.createElement("br");
         var labelElement = document.createElement("label");
         labelElement.for = name;
-        labelElement.innerHTML = "Выберите ингридиент " + (num).toString() + ": ";
+        labelElement.innerHTML = "Выберите ингредиент " + (num).toString() + ": ";
 
         var optionElement = document.createElement("option");
         optionElement.value = '';
-        optionElement.innerHTML = "Выберите ингридиент";
+        optionElement.innerHTML = "Выберите ингредиент";
         optionElement.disabled = true;
         optionElement.selected = true;
         selectElement.appendChild(optionElement);
@@ -22,7 +22,7 @@
 
         var numberElement = document.createElement("input");
         numberElement.type = "number";
-        numberElement.placeholder = " кол-во ингридиента (гр)";
+        numberElement.placeholder = " кол-во ингредиента (гр)";
         numberElement.min = "1";
         numberElement.required =true;
         numberElement.name = "ingridientAmount" + num.toString();
@@ -53,9 +53,9 @@ while($row = mysqli_fetch_array($query)){
 <form id="addDishForm" action="submit_new_dish.php" method="post">
     <label for="name">Название блюда: </label>
     <input type="text" id="name" name="dish_name" required><br>
-    <label for="ingridient1">Выберите ингридиент 1: </label>
+    <label for="ingridient1">Выберите ингредиент 1: </label>
     <select id="ingridient1" name="ingridient1" required>
-        <option value='' selected disabled>Выберите ингридиент</option>
+        <option value='' selected disabled>Выберите ингредиент</option>
         <?php
             for($i = 1; $i <= count($ingridients[0]); $i++){
                 $ing_id = $ingridients[0][$i - 1];
@@ -64,8 +64,8 @@ while($row = mysqli_fetch_array($query)){
             }
         ?>
     </select>
-    <input type="number" name="ingridientAmount1" placeholder="кол-во ингридиента (гр)" min="1" required><br>
-    <input type="button" id="addIngridient" onclick="addDish()" value="Добавить ингридиент"><br>
+    <input type="number" name="ingridientAmount1" placeholder="кол-во ингредиента (гр)" min="1" required><br>
+    <input type="button" id="addIngridient" onclick="addDish()" value="Добавить ингредиент"><br>
     <label for="dishCost">Введите стоимость блюда: </label>
     <input type="number" id="dishCost" name="dish_cost" placeholder="стоимость блюда" min="1" required><br>
     <input type="submit" value="Добавить блюдо">

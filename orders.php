@@ -1,72 +1,4 @@
-<script>
-    var lowToHigh = new Boolean(5);
-    function sortTable(column) {
-        var table, rows, switching, i, x, y, shouldSwitch;
-        table = document.getElementById("ordersTable");
-        switching = true;
-        /*Make a loop that will continue until
-        no switching has been done:*/
-        if(lowToHigh[column]){
-            while (switching) {
-                //start by saying: no switching is done:
-                switching = false;
-                rows = table.rows;
-                /*Loop through all table rows (except the
-                first, which contains table headers):*/
-                for (i = 1; i < (rows.length - 1); i++) {
-                    //start by saying there should be no switching:
-                    shouldSwitch = false;
-                    /*Get the two elements you want to compare,
-                    one from current row and one from the next:*/
-                    x = rows[i].getElementsByTagName("TD")[column];
-                    y = rows[i + 1].getElementsByTagName("TD")[column];
-                    //check if the two rows should switch place:
-                    if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-                        //if so, mark as a switch and break the loop:
-                        shouldSwitch = true;
-                        break;
-                    }
-                }
-                if (shouldSwitch) {
-                    /*If a switch has been marked, make the switch
-                    and mark that a switch has been done:*/
-                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-                    switching = true;
-                }
-            }
-        }
-        if(!lowToHigh[column]){
-            while (switching) {
-                //start by saying: no switching is done:
-                switching = false;
-                rows = table.rows;
-                /*Loop through all table rows (except the
-                first, which contains table headers):*/
-                for (i = 1; i < (rows.length - 1); i++) {
-                    //start by saying there should be no switching:
-                    shouldSwitch = false;
-                    /*Get the two elements you want to compare,
-                    one from current row and one from the next:*/
-                    x = rows[i].getElementsByTagName("TD")[column];
-                    y = rows[i + 1].getElementsByTagName("TD")[column];
-                    //check if the two rows should switch place:
-                    if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
-                        //if so, mark as a switch and break the loop:
-                        shouldSwitch = true;
-                        break;
-                    }
-                }
-                if (shouldSwitch) {
-                    /*If a switch has been marked, make the switch
-                    and mark that a switch has been done:*/
-                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-                    switching = true;
-                }
-            }
-        }
-
-        lowToHigh[column] = !lowToHigh[column];
-    }
+<script type="text/javascript" src="sortTable.js">
 </script>
 
 <?php
@@ -87,14 +19,14 @@ $query = mysqli_query($conn, $sql);
 
 <table id="ordersTable">
     <tr>
-        <th onclick="sortTable(0)">Организация</th>
-        <th onclick="sortTable(1)">Имя клиента</th>
-        <th onclick="sortTable(2)">Телефон</th>
-        <th onclick="sortTable(3)">Адрес</th>
-        <th onclick="sortTable(4)">Комментарий</th>
-        <th onclick="sortTable(5)">Время заказа</th>
-        <th onclick="sortTable(6)">Блюда</th>
-        <th onclick="sortTable(7)">Стоимость заказа</th>
+        <th onclick="sortTable(0, 'ordersTable', 8)">Организация</th>
+        <th onclick="sortTable(1, 'ordersTable', 8)">Имя клиента</th>
+        <th onclick="sortTable(2, 'ordersTable', 8)">Телефон</th>
+        <th onclick="sortTable(3, 'ordersTable', 8)">Адрес</th>
+        <th onclick="sortTable(4, 'ordersTable', 8)">Комментарий</th>
+        <th onclick="sortTable(5, 'ordersTable', 8)">Время заказа</th>
+        <th onclick="sortTable(6, 'ordersTable', 8)">Блюда</th>
+        <th onclick="sortTable(7, 'ordersTable', 8)">Стоимость заказа</th>
     </tr>
     <?php
     $orders_listed = array();

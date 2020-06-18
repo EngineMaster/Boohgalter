@@ -11,8 +11,8 @@ if(isset($_POST['ing_name'])){
 }
 ?>
 <form action="#" method="post">
-    <label for="ing_name">Введите название ингридиента: </label>
+    <label for="ing_name">Введите название ингредиента: </label>
     <input type="text" id="ing_name" name="ing_name"><br>
-    <input type="submit" value="Добавить ингридиент">
+    <input type="submit" value="Добавить ингредиент">
 </form><br>
 <a href=".">На главную страницу</a>
